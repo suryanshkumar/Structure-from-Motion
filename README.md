@@ -3,13 +3,13 @@
 Author: Suryansh Kumar
 
 This code implements basic SfM pipeline. I hope this code 
-will be useful to students and reseachers who wants to understand 
-or revise basic SfM. I have tried not to use template programming 
-as few people find it difficult to undertand. 
+will be useful to the students and reseachers who wants to 
+understand or revise basic SfM. I have tried not to use 
+template programming as few people find it difficult to undertand. 
 
 
 To quickly check the code, few sample images and its intrinsic matrix 
-is provided with this code. This code has implemented the theory described 
+has been provided with this code. This code has implemented the theory described 
 in "Multiple View Geometry" text book by Richard Hartley and Andrew Zisserman. 
 I have also taken help from "A structure and Motion Toolkit in Matlab" 
 developed by P.H.S Torr while implementing this code.
