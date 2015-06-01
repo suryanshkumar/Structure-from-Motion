@@ -6,6 +6,7 @@
 #include <iostream>
 #include <opencv/cv.h>
 #include <opencv2/highgui/highgui.hpp>
+#include <opencv2/calib3d/calib3d.hpp>
 #include <cstring>
 #include <fstream>
 #include "essential.h"
