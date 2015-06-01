@@ -85,7 +85,7 @@ void basicSfM :: algorithm_sparse3d()
     {
       stringstream ss;
       ss<<i;
-      string iPath = "/home/suryansh/Sparse3D/images/" + ss.str() + ".pgm";
+      string iPath = "../../images/" + ss.str() + ".pgm";
       Mat image = imread(iPath, 1);
       images.push_back(image);
     }
