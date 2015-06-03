@@ -37,6 +37,11 @@ c) ./reconstruction > output.xyz
 
 Use MeshLab to view .xyz file.
 
+NOTE: 
+You can try with your own data. Remember to change Intrinsic matrix and path to
+the image file. Moreover, feature correspondance between the images should be
+good for triangulation to give correct 3D reconstruction. 
+
 
 
 
