@@ -1,4 +1,4 @@
-# StructurefromMotion
+# Two View Structure from Motion 
 
 Author: Suryansh Kumar
 
