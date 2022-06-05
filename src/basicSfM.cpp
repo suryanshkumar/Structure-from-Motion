@@ -75,6 +75,8 @@ void basicSfM :: reconstruct_sparse3d(vector<Mat> images)
         it++;
     }
     (Est.P2c).copyTo(iP1);
+    //cout<<"Relative rotation"<< Est.R2c<<endl;
+    //cout<<"Relative translation"<<Est.t2c<<endl;
    
 }
 
