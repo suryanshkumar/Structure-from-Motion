@@ -8,8 +8,8 @@ I_nex = imread("../images/16.pgm");
 K_mat = load("K_matrix.txt");
 
 % step 2: compute the key point in the two images.
-corner_ref = detectHarrisFeatures(I_ref);
-corner_nex = detectHarrisFeatures(I_nex);
+corner_ref = detectSIFTFeatures(I_ref);
+corner_nex = detectSIFTFeatures(I_nex);
 [feature_ref, valid_ref] = extractFeatures(I_ref, corner_ref);
 [feature_nex, valid_nex] = extractFeatures(I_nex, corner_nex);
 

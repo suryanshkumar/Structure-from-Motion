@@ -11,8 +11,8 @@ R1 = U*W*V';
 R2 = U*W'*V';
 
 % the two possible translation
-t1 = U(:, 2);
-t2 = -U(:, 2);
+t1 = U(:, 3);
+t2 = -U(:, 3);
 
 % check the determinant for a valid rotation and correct for reflection.
 if (det(R1) < 0)

@@ -15,10 +15,10 @@ E = K'*F*K;
 % store four possible camera for the next view;
 N_config = 4;            % total number of possible configuration.
 pose_nex = cell(N_config, 1);
-pose_nex{1} = [R1_nex, t1_nex]; % 1st possible pose
-pose_nex{2} = [R1_nex, t2_nex]; % 2nd possible pose
-pose_nex{3} = [R2_nex, t1_nex]; % 3rd possible pose
-pose_nex{4} = [R2_nex, t2_nex]; % 4th possible pose
+pose_nex{1} = [R1_nex'; t1_nex']'; % 1st possible pose
+pose_nex{2} = [R1_nex'; t2_nex']'; % 2nd possible pose
+pose_nex{3} = [R2_nex'; t1_nex']'; % 3rd possible pose
+pose_nex{4} = [R2_nex'; t2_nex']'; % 4th possible pose
 
 % step 4: triangulate image key-point correspondence using all 4 camera.
 P_ref = K*eye(3, 4);     % assume the reference pose to be at origin.
@@ -58,8 +58,6 @@ reconstructed_points = get_filtered_3d(chiral_mat, X_mat);
 end
 
 
-
-
 function X = get_filtered_3d(chiral_mat, X_mat)
 
 X = []; count = 0;
@@ -68,11 +66,11 @@ for i = 1:length(chiral_mat)
     if (val == 2.0)
         x = X_mat(i, 1); y = X_mat(i, 2); z = X_mat(i, 3); w = X_mat(i, 4);
         x = x/w; y = y/w; z = z/w;
-        %if (z > 0 && z <100.0)
+        if (z > 0 && z <1000.0)
             count = count + 1;
             x_store = [x, y, z];
             X = [X; x_store];
-        %end
+        end
     end
 end
 
