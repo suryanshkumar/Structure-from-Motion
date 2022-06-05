@@ -4,7 +4,7 @@
 
 % step 1: read the two image and K matrix.
 I_ref = imread("../images/15.pgm");
-I_nex = imread("../images/19.pgm");
+I_nex = imread("../images/16.pgm");
 K_mat = load("K_matrix.txt");
 
 % step 2: compute the key point in the two images.

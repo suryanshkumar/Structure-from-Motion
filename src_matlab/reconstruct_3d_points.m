@@ -3,11 +3,8 @@
 function [R_rel, t_rel, reconstructed_points] = reconstruct_3d_points(...
     x_ref, x_nex, K)
 
-reconstructed_points = [];
-
 % step 1: compute fundamental matrix.
-[F, ~] = estimateFundamentalMatrix(x_ref, x_nex, Method="Norm8Point", ...
-    NumTrials=2000,DistanceThreshold=1e-4);
+[F, ~] = estimateFundamentalMatrix(x_ref, x_nex, Method="Norm8Point");
 
 % step 2: compute essential matrix.
 E = K'*F*K;
@@ -37,7 +34,7 @@ for i = 1:N_config
     %triangulate points.
     X_p{i} = triangulate_points(x_ref, x_nex, scale_val, P_ref, P_nex{i});
     
-    %check chirality using the unnormalized reconstructed points.
+    %get chirality values using the unnormalized reconstructed points.
     chiral_val{i} = compute_chiral_estimate(P_ref, P_nex{i}, X_p{i});
 end
 
@@ -57,7 +54,27 @@ R_rel = relative_pose(:, 1:3);
 t_rel = relative_pose(:, 4);
 
 % step 7: homogenize to get the reconstruction in 3D.
-reconstructed_points = get_valid_3d(chiral_mat, X_mat);
+reconstructed_points = get_filtered_3d(chiral_mat, X_mat);
+end
+
+
+
+
+function X = get_filtered_3d(chiral_mat, X_mat)
+
+X = []; count = 0;
+for i = 1:length(chiral_mat)
+    val = chiral_mat(i); 
+    if (val == 2.0)
+        x = X_mat(i, 1); y = X_mat(i, 2); z = X_mat(i, 3); w = X_mat(i, 4);
+        x = x/w; y = y/w; z = z/w;
+        %if (z > 0 && z <100.0)
+            count = count + 1;
+            x_store = [x, y, z];
+            X = [X; x_store];
+        %end
+    end
+end
 
 end
 
