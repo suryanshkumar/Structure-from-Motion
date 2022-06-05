@@ -1,11 +1,10 @@
 % Author: Suryansh Kumar, ETH
+% Refer page 258-259 Multiple View Geometry in Computer Vision Book.
 
-function [R1, R2, t1, t2] = compute_possible_poses(E, K)
+function [R1, R2, t1, t2] = compute_possible_poses(E)
 
 W = [0, -1, 0; 1, 0, 0; 0, 0, 1];
-Z = [0, 1, 0; -1, 0, 0; 0, 0, 0];
-
-[U, S, V] = svd(E);
+[U, ~, V] = svd(E);
 
 % the two possible rotation
 R1 = U*W*V';
