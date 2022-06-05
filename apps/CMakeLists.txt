@@ -6,7 +6,8 @@ SET(CMAKE_CXX_FLAGS_DEBUG "-g")
 SET(CMAKE_BUILD_TYPE RELEASE)
 INCLUDE_DIRECTORIES(/usr/local/include )
 
-find_package( OpenCV REQUIRED )
+#find_package( OpenCV REQUIRED )
+find_package(OpenCV HINTS "/usr/local/share/OpenCV/")
 set(CORELIBS Sparse3D ${OpenCV_LIBS})
 #set(CORELIBS VisionMachinelib /usr/lib/libgdal.so)
 #...............
