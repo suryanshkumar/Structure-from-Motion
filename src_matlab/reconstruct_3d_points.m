@@ -4,7 +4,8 @@ function [R_rel, t_rel, reconstructed_points] = reconstruct_3d_points(...
     x_ref, x_nex, K)
 
 % step 1: compute fundamental matrix.
-F = fundmatrix([x_ref'; ones(1, length(x_ref))], [x_nex'; ones(1, length(x_nex))]);
+F = fundmatrix([x_ref'; ones(1, length(x_ref))], ...
+    [x_nex'; ones(1, length(x_nex))]);
 
 % step 2: compute essential matrix.
 E = K'*F*K;
@@ -21,10 +22,11 @@ pose_nex{3} = [R2_nex, t1_nex]; % 3rd possible pose
 pose_nex{4} = [R2_nex, t2_nex]; % 4th possible pose
 
 % step 4: triangulate image key-point correspondence using all 4 camera.
-P_ref = K*eye(3, 4);     % assume the reference pose to be at origin.
+P_ref = K*eye(3, 4);     % assuming the reference pose to be at origin.
 scale_val = 1.0;         % homogenous approach
-P_nex = cell(N_config, 1);      % total projection matrix.
-X_p = cell(N_config, 1);        % reconstruction for possible cameras.
+
+P_nex = cell(N_config, 1);      % total number of projection matrix.
+X_p = cell(N_config, 1);        % 3D reconstruction using possible cameras.
 chiral_val = cell(N_config, 1); % chiral value corresponding to cameras.
 
 for i = 1:N_config
@@ -44,16 +46,18 @@ for  i = 1:N_config
     config_total(i, 1) = sum(chiral_val{i});
 end
 
+% max of chiral value assures useful pose configuration for reconstruction
 [~, consensus_index] = max(config_total);
 
-% step 6: procure the correct pose for the next camera and 3D.
+% step 6: procure the correct pose for the next camera and its 3D.
 relative_pose =  pose_nex{consensus_index};
 chiral_mat = chiral_val{consensus_index};
 X_mat = X_p{consensus_index};
 R_rel = relative_pose(:, 1:3);
 t_rel = relative_pose(:, 4);
 
-% step 7: homogenize to get the reconstruction in 3D.
+% step 7: homogenize to get the 3D reconstruction and filter numerically
+% unstable reconstruction via simple threshold.
 reconstructed_points = filter_and_recover(chiral_mat, X_mat);
 end
 
