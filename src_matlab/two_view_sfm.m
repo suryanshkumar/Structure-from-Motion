@@ -4,8 +4,8 @@
 addpath(genpath("./mvg_modules"));
 
 % % step 1: read the two image and K matrix.
-I_ref = imread("images/IMG_2348.JPG");
-I_nex = imread("images/IMG_2349.JPG");
+I_ref = imread("../images/IMG_2348.JPG");
+I_nex = imread("../images/IMG_2349.JPG");
 
 % MATLAB inbuild feature descriptor match may fail at original image 
 % resolution. Thus, we resized it and appropritely changed the K matrix.

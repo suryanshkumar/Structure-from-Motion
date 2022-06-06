@@ -77,10 +77,9 @@ void basicSfM :: reconstruct_sparse3d(vector<Mat> images)
     (Est.P2c).copyTo(iP1);
     //cout<<"Relative rotation"<< Est.R2c<<endl;
     //cout<<"Relative translation"<<Est.t2c<<endl;
-   
 }
 
-void basicSfM :: algorithm_sparse3d()
+/*void basicSfM :: algorithm_sparse3d()
 {
     vector<Mat> images;
     for(int i = 15; i<=19; i++)
@@ -93,4 +92,22 @@ void basicSfM :: algorithm_sparse3d()
     }
     
     reconstruct_sparse3d(images);
+}*/
+
+
+void basicSfM :: algorithm_sparse3d()
+{
+    vector<Mat> images;
+    image_ref = imread()
+    for(int i = 15; i<=19; i++)
+    {
+      stringstream ss;
+      ss<<i;
+      string iPath = "../../images/" + ss.str() + ".pgm";
+      Mat image = imread(iPath, 1);
+      images.push_back(image);
+    }
+    
+    reconstruct_sparse3d(images);
 }
+
