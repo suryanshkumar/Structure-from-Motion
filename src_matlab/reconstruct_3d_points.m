@@ -4,21 +4,27 @@ function [R_rel, t_rel, reconstructed_points] = reconstruct_3d_points(...
     x_ref, x_nex, K)
 
 % step 1: compute fundamental matrix.
-[F, ~] = estimateFundamentalMatrix(x_ref, x_nex, Method="Norm8Point");
+% [F, ~] = estimateFundamentalMatrix(x_ref, x_nex, Method="Norm8Point", ...
+%     NumTrials=2000, DistanceThreshold=1e-4);
+F = fundmatrix([x_ref'; ones(1, length(x_ref))], [x_nex'; ones(1, length(x_nex))]);
 
 % step 2: compute essential matrix.
 E = K'*F*K;
 
 % step 3: compute possible poses for the next camera
 [R1_nex, R2_nex, t1_nex, t2_nex] = compute_possible_poses(E);
+R1_nex;
+t1_nex;
+R2_nex;
+t2_nex;
 
 % store four possible camera for the next view;
 N_config = 4;            % total number of possible configuration.
 pose_nex = cell(N_config, 1);
-pose_nex{1} = [R1_nex'; t1_nex']'; % 1st possible pose
-pose_nex{2} = [R1_nex'; t2_nex']'; % 2nd possible pose
-pose_nex{3} = [R2_nex'; t1_nex']'; % 3rd possible pose
-pose_nex{4} = [R2_nex'; t2_nex']'; % 4th possible pose
+pose_nex{1} = [R1_nex, t1_nex]; % 1st possible pose
+pose_nex{2} = [R1_nex, t2_nex]; % 2nd possible pose
+pose_nex{3} = [R2_nex, t1_nex]; % 3rd possible pose
+pose_nex{4} = [R2_nex, t2_nex]; % 4th possible pose
 
 % step 4: triangulate image key-point correspondence using all 4 camera.
 P_ref = K*eye(3, 4);     % assume the reference pose to be at origin.

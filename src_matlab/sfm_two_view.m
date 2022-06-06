@@ -1,15 +1,16 @@
 %Author: Suryansh Kumar, ETH
 
 % basic steps for two-view structure from motion
+addpath("fundamental_matrix_module/");
 
 % step 1: read the two image and K matrix.
 I_ref = imread("../images/15.pgm");
-I_nex = imread("../images/16.pgm");
+I_nex = imread("../images/19.pgm");
 K_mat = load("K_matrix.txt");
 
 % step 2: compute the key point in the two images.
-corner_ref = detectSIFTFeatures(I_ref);
-corner_nex = detectSIFTFeatures(I_nex);
+corner_ref = detectHarrisFeatures(I_ref);
+corner_nex = detectHarrisFeatures(I_nex);
 [feature_ref, valid_ref] = extractFeatures(I_ref, corner_ref);
 [feature_nex, valid_nex] = extractFeatures(I_nex, corner_nex);
 
