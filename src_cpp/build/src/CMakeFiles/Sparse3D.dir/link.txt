@@ -1,2 +1,0 @@
-/usr/bin/ar qc libSparse3D.a  CMakeFiles/Sparse3D.dir/basicSfM.cpp.o CMakeFiles/Sparse3D.dir/matches.cpp.o CMakeFiles/Sparse3D.dir/essential.cpp.o CMakeFiles/Sparse3D.dir/triangulate.cpp.o
-/usr/bin/ranlib libSparse3D.a

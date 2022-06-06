@@ -19,7 +19,7 @@ using namespace std;
 void matches :: detectfeature()
 {
     qualityLevel = 0.01;
-    minDistance = 10;
+    minDistance = 3;
     blockSize = 3;
     useHarrisDetector = false;
     k = 0.04;

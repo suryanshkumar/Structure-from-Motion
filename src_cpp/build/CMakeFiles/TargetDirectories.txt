@@ -1,8 +1,0 @@
-/home/sukumar/codes/practise_code/Structure-from-Motion/src_cpp/build/CMakeFiles/rebuild_cache.dir
-/home/sukumar/codes/practise_code/Structure-from-Motion/src_cpp/build/CMakeFiles/edit_cache.dir
-/home/sukumar/codes/practise_code/Structure-from-Motion/src_cpp/build/src/CMakeFiles/rebuild_cache.dir
-/home/sukumar/codes/practise_code/Structure-from-Motion/src_cpp/build/src/CMakeFiles/Sparse3D.dir
-/home/sukumar/codes/practise_code/Structure-from-Motion/src_cpp/build/src/CMakeFiles/edit_cache.dir
-/home/sukumar/codes/practise_code/Structure-from-Motion/src_cpp/build/apps/CMakeFiles/rebuild_cache.dir
-/home/sukumar/codes/practise_code/Structure-from-Motion/src_cpp/build/apps/CMakeFiles/reconstruction.dir
-/home/sukumar/codes/practise_code/Structure-from-Motion/src_cpp/build/apps/CMakeFiles/edit_cache.dir
