@@ -71,10 +71,10 @@ function [F,e1,e2] = fundmatrix(varargin)
     % Enforce constraint that fundamental matrix has rank 2 by performing
     % a svd and then reconstructing with the two largest singular values.
     [U,D,V] = svd(F,0);
-    F = U*diag([D(1,1) D(2,2) 0])*V'
+    F = U*diag([D(1,1) D(2,2) 0])*V';
     
     % Denormalise
-    F = T2'*F*T1
+    F = T2'*F*T1;
     
     if nargout == 3  	% Solve for epipoles
 	[U,D,V] = svd(F,0);
