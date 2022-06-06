@@ -1,14 +1,14 @@
 %Author: Suryansh Kumar, ETH
 
 % basic steps for two-view structure from motion
-addpath("fundamental_matrix_module/");
+addpath(genpath("./mvg_modules"));
 
 % % step 1: read the two image and K matrix.
 I_ref = imread("images/IMG_2348.JPG");
 I_nex = imread("images/IMG_2349.JPG");
 
 % MATLAB inbuild feature descriptor match may fail at original image 
-% resolution. Thus, we resized it and appropritely changes the K matrix.
+% resolution. Thus, we resized it and appropritely changed the K matrix.
 [m, n, ~] = size(I_ref);
 im_scale = 4.0;
 
@@ -45,8 +45,11 @@ showMatchedFeatures(I_ref, I_nex, matchedpoint_ref, matchedpoint_nex, ...
 
 
 % % step 5: plot the reconstruction.
-% MATLAB 3D plotting sucks a big time, so better store it and visualize
-% the points in a good 3D visualizer. Recommended software: pangolin.
+% MATLAB 3D plotting sucks big-time, so better store the 
+% reconstructed_3d_points and visualize the points in a 
+% good 3D visualizer. Recommended software: pangolin.
+%figure, hold on;
+%plot3(reconstructed_3d_points(:, 1), reconstructed_3d_points(:, 2), reconstructed_3d_points(:, 3), 'k.');
 
 
 
