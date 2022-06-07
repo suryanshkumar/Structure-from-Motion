@@ -19,9 +19,6 @@
 using namespace std;
 using namespace cv;
 
-const double kDistanceCoef = 4.0;
-const int kMaxMatchingSize = 50;
-
 
 /*void basicSfM :: reconstruct_sparse3d(vector<Mat> images)
 {
@@ -112,8 +109,8 @@ vector<Point2f> detect_features(Mat img){
 
 //taken from internet
 inline void match(Mat& desc1, Mat& desc2, vector<DMatch>& matches) {
-    const double kDistanceCoef = 4.0;
-    const int kMaxMatchingSize = 50;
+    const double kDistanceCoef = 6.0;
+    const int kMaxMatchingSize = 200;
     matches.clear();
     cv::BFMatcher desc_matcher(cv::NORM_L2, true);
     vector< vector<DMatch> > vmatches;
@@ -132,6 +129,7 @@ inline void match(Mat& desc1, Mat& desc2, vector<DMatch>& matches) {
     while (matches.size() > kMaxMatchingSize) {
         matches.pop_back();
     }
+
 }
 
 
@@ -144,7 +142,7 @@ void basicSfM :: reconstruct_sparse3d(vector<Mat> images)
     //detect key points and compute its descriptor
     vector<KeyPoint> ref_kpts; vector<KeyPoint> nex_kpts;
     Mat ref_desc; Mat nex_desc;
-    Ptr<ORB> detector = ORB::create();
+    Ptr<KAZE> detector = KAZE::create();
 
     detector->detectAndCompute(ref_img, Mat(), ref_kpts, ref_desc);
 	detector->detectAndCompute(nex_img, Mat(), nex_kpts, nex_desc);
@@ -155,6 +153,7 @@ void basicSfM :: reconstruct_sparse3d(vector<Mat> images)
 
     //draw the matched points
     Mat img_matches;
+    cout<<matches.size()<<endl;
 	drawMatches(ref_copy, ref_kpts, nex_copy, nex_kpts,
 			matches, img_matches);
     
@@ -171,7 +170,7 @@ void basicSfM :: algorithm_sparse3d()
      
     //resize the images
     Mat image_ref; Mat image_nex;
-    int down_scale_factor = 12;
+    int down_scale_factor = 6;
     resize(image_1, image_ref, Size(image_1.size().width/down_scale_factor, image_1.size().height/down_scale_factor));
     resize(image_2, image_nex, Size(image_2.size().width/down_scale_factor, image_2.size().height/down_scale_factor));
 
