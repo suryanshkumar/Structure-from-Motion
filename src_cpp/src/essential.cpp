@@ -10,32 +10,22 @@
 #include <cstring>
 #include <fstream>
 #include "essential.h"
-#define THR_D 40
+#define THR_D 100
 
 using namespace cv;
 using namespace std;
 
-void essential :: getIntrinsic()
+void essential :: getIntrinsic(int scale)
 {
-    string filename = "../../src/Camera/Kseq8.xml";
-    
-    FileStorage fs;
-    fs.open(filename, FileStorage::READ);
-
-    if (!fs.isOpened())
-    {
-      
-      cerr << "Failed to open " << filename << endl;
-
-    }
-
-    fs["K"]>>K; K.convertTo(K, CV_64FC1);
-    //cout<<K<<endl;
+   double fx = 3838.27/scale; double fy = 3837.22/scale; 
+   double cx = 2808.00/scale; double cy = 1872.00/scale;
+   K = (Mat_<double>(3, 3)<<fx, 0, cx, 0, fy, cy, 0, 0, 1);
+   cout<<K<<endl;
 } 
 
 void essential :: computeEssentialMat(vector<Point2f> iF1, vector<Point2f> iF2)
 {
-    F = findFundamentalMat(iF1, iF2, FM_RANSAC, 1.3, 0.99);
+    F = findFundamentalMat(iF1, iF2, FM_8POINT, 1, 0.99);
     //cout<<" Fundamental Matrix " << F <<endl;
     
     /**Computing the Essential matrix**/

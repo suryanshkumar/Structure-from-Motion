@@ -19,13 +19,15 @@ class basicSfM
 {
   public: 
   	void algorithm_sparse3d();
+	void estimate_keypoint_correspondences(vector<Mat> images);
     
   private:
-  	void reconstruct_sparse3d(vector<Mat>);
+  	void reconstruct_sparse3d();
   	vector<cv::Point3d> xR;
+	vector<Point2f> ref_keypoints;
+    vector<Point2f> nex_keypoints;
   	Mat iP1, iP2;
-  	
-
+	int down_scale_factor;
 };
 
 #endif
