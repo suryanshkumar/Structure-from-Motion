@@ -4,23 +4,27 @@
 addpath(genpath("./mvg_modules"));
 
 % % step 1: read the two image and K matrix.
-I_ref = imread("../images/IMG_2348.JPG");
-I_nex = imread("../images/IMG_2349.JPG");
+% I_ref = imread("../images/IMG_2348.JPG");
+% I_nex = imread("../images/IMG_2349.JPG");
+I_ref = imread("../images/0022.JPG");
+I_nex = imread("../images/0023.JPG");
 
 % MATLAB inbuild feature descriptor match may fail at original image 
 % resolution. Thus, we resized it and appropritely changed the K matrix.
-[m, n, ~] = size(I_ref);
-im_scale = 4.0;
-
-I_ref = imresize(I_ref, [m/im_scale, n/im_scale]);
-I_nex = imresize(I_nex, [m/im_scale, n/im_scale]);
-fx = 3838.27/im_scale; fy = 3837.22/im_scale; 
-cx = 2808.00/im_scale; cy = 1872.00/im_scale;
+% [m, n, ~] = size(I_ref);
+% im_scale = 4.0;
+% 
+% I_ref = imresize(I_ref, [m/im_scale, n/im_scale]);
+% I_nex = imresize(I_nex, [m/im_scale, n/im_scale]);
+% fx = 3838.27/im_scale; fy = 3837.22/im_scale; 
+% cx = 2808.00/im_scale; cy = 1872.00/im_scale;
+fx = 1698.873755; fy = 1698.8796645;
+cx = 971.7497705; cy = 647.7488275;
 K_mat = [fx, 0, cx; 0, fy, cy; 0, 0, 1];
 
 % % step 2: compute the key point in the two images.
-corner_ref = detectORBFeatures(rgb2gray(I_ref));
-corner_nex = detectORBFeatures(rgb2gray(I_nex));
+corner_ref = detectSIFTFeatures(rgb2gray(I_ref));
+corner_nex = detectSIFTFeatures(rgb2gray(I_nex));
 [feature_ref, valid_ref] = extractFeatures(rgb2gray(I_ref), corner_ref);
 [feature_nex, valid_nex] = extractFeatures(rgb2gray(I_nex), corner_nex);
 
