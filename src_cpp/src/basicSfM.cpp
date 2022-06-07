@@ -23,14 +23,14 @@ using namespace cv;
 void basicSfM :: reconstruct_sparse3d(){
 
     essential Est;
-    Est.getIntrinsic(down_scale_factor);
+    Est.getIntrinsic(im_scale_factor);
     Est.computeEssentialMat(ref_keypoints, nex_keypoints);
 
-    //cout<<"Step3. Decomposition of E into four possible camera poses"<<endl;
+    //cout<<"Step1. Decomposition of E into four possible camera poses"<<endl;
   
     Est.computePose();
   
-    //cout<<"Step4. Reconstruct for possible Rt matices using Triangulation" <<endl;
+    //cout<<"Step2. Reconstruct for possible Rt matices using Triangulation" <<endl;
     triangulate tr; float scale = 1.0;
   
     Mat Xn1 = tr.triangulate_points(ref_keypoints, nex_keypoints, scale, Est.P0, Est.P1);
@@ -38,23 +38,15 @@ void basicSfM :: reconstruct_sparse3d(){
     Mat Xn3 = tr.triangulate_points(ref_keypoints, nex_keypoints, scale, Est.P0, Est.P3);
     Mat Xn4 = tr.triangulate_points(ref_keypoints, nex_keypoints, scale, Est.P0, Est.P4);
   
-    //cout<<"Step5. Check the chirality to validate the reconstruction"<<endl;
+    //cout<<"Step3. Check the chirality to validate the reconstruction"<<endl;
     Est.check_chirality(Xn1, Xn2, Xn3, Xn4);
-    vector<cv::Point3d> xR = Est.xReconstructed;
-    vector<cv::Point3d> :: iterator it = xR.begin();
-  
-    while(it != xR.end())
-    {
-        cout<<it->x<<" "<<it->y<<" "<<it->z<<endl;
-        it++;
-    }
-    //(Est.P2c).copyTo(iP2);
-    cout<<"Relative rotation"<< Est.R2c<<endl;
-    cout<<"Relative translation"<<Est.t2c<<endl;
+
+    //store the relative pose, projection matrix and reconstruction.
+    (Est.R2c).copyTo(R_rel); (Est.t2c).copyTo(t_rel); (Est.P2c).copyTo(P_rel);
+    xR = Est.xReconstructed;
 }
 
-
-vector< DMatch > match_keypoint_descriptors(Mat descriptors_ref, Mat descriptors_nex){
+vector< DMatch > basicSfM :: match_keypoint_descriptors(Mat descriptors_ref, Mat descriptors_nex){
 
     FlannBasedMatcher matcher;
     std::vector< DMatch > matches;
@@ -96,7 +88,6 @@ void basicSfM :: estimate_keypoint_correspondences(vector<Mat> images)
     detector->detectAndCompute(ref_img, Mat(), ref_kpts, ref_desc);
 	detector->detectAndCompute(nex_img, Mat(), nex_kpts, nex_desc);
 
-    std::vector< DMatch > matches;
     matches = match_keypoint_descriptors(ref_desc, nex_desc);
     Mat img_matches;
 
@@ -108,23 +99,20 @@ void basicSfM :: estimate_keypoint_correspondences(vector<Mat> images)
         ref_keypoints.push_back(ref_kpts[matches[i].queryIdx].pt);
         nex_keypoints.push_back(nex_kpts[matches[i].trainIdx].pt);
     }
+
     imshow("Matches", img_matches);
     waitKey(0);
 }
 
 
-void basicSfM :: algorithm_sparse3d()
+void basicSfM :: algorithm_sparse3d(Mat image_1, Mat image_2, int down_scale_factor)
 {
     vector<Mat> images;
-    Mat image_1 = imread("../../../images/IMG_2348.JPG");
-    Mat image_2 = imread("../../../images/IMG_2349.JPG");
 
-     
     //resize the images
-    Mat image_ref; Mat image_nex;
-    down_scale_factor = 4;
-    resize(image_1, image_ref, Size(image_1.size().width/down_scale_factor, image_1.size().height/down_scale_factor));
-    resize(image_2, image_nex, Size(image_2.size().width/down_scale_factor, image_2.size().height/down_scale_factor));
+    im_scale_factor = down_scale_factor;
+    resize(image_1, image_ref, Size(image_1.size().width/im_scale_factor, image_1.size().height/im_scale_factor));
+    resize(image_2, image_nex, Size(image_2.size().width/im_scale_factor, image_2.size().height/im_scale_factor));
 
     //display the images
     imshow("reference image", image_ref);
