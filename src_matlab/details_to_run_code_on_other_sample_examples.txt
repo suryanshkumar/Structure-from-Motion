@@ -1,0 +1,11 @@
+To execute other example
+% I_ref = imread("../images/IMG_2348.JPG");
+% I_nex = imread("../images/IMG_2349.JPG");
+% [m, n, ~] = size(I_ref);
+% im_div_scale = 4.0;
+% 
+% I_ref = imresize(I_ref, [m/im_div_scale, n/im_div_scale]);
+% I_nex = imresize(I_nex, [m/im_div_scale, n/im_div_scale]);
+% fx = 3838.27/im_div_scale; fy = 3837.22/im_div_scale; 
+% cx = 2808.00/im_div_scale; cy = 1872.00/im_div_scale;
+
