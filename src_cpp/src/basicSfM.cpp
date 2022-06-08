@@ -1,12 +1,12 @@
 
 /**
- * Author : Suryansh Kumar
- * Web: http://researchweb.iiit.ac.in/~suryansh
+ * Author : Suryansh Kumar, ETH Zurich
  * */
 
 #include <iostream>
 #include <iterator>
 #include <string>
+#include <fstream>
 #include <opencv/cv.h>
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
@@ -24,23 +24,22 @@ using namespace cv;
 void basicSfM :: reconstruct_sparse3d(){
 
     essential Est;
-    //Est.getIntrinsic(im_scale_factor);
+
+    //Step 1: Compute Essential Matrix.
     K_mat.copyTo(Est.K);
     Est.computeEssentialMat(ref_keypoints, nex_keypoints);
 
-    //cout<<"Step1. Decomposition of E into four possible camera poses"<<endl;
-  
+    //Step 2. Decomposition of E into four possible camera poses;
     Est.computePose();
   
-    //cout<<"Step2. Reconstruct for possible Rt matices using Triangulation" <<endl;
+    //Step 3. Reconstruct for possible Rt matices using Triangulation;
     triangulate tr; float scale = 1.0;
-  
     Mat Xn1 = tr.triangulate_points(ref_keypoints, nex_keypoints, scale, Est.P0, Est.P1);
     Mat Xn2 = tr.triangulate_points(ref_keypoints, nex_keypoints, scale, Est.P0, Est.P2);
     Mat Xn3 = tr.triangulate_points(ref_keypoints, nex_keypoints, scale, Est.P0, Est.P3);
     Mat Xn4 = tr.triangulate_points(ref_keypoints, nex_keypoints, scale, Est.P0, Est.P4);
   
-    //cout<<"Step3. Check the chirality to validate the reconstruction"<<endl;
+    //Step 4. Check the chirality to validate the reconstruction;
     Est.check_chirality(Xn1, Xn2, Xn3, Xn4);
 
     //store the relative pose, projection matrix and reconstruction.
@@ -76,8 +75,7 @@ vector< DMatch > basicSfM :: match_keypoint_descriptors(Mat descriptors_ref, Mat
 }
 
 
-void basicSfM :: estimate_keypoint_correspondences(vector<Mat> images)
-{
+void basicSfM :: estimate_keypoint_correspondences(vector<Mat> images){
     Mat ref_img = images[0]; Mat nex_img = images[1];
     Mat ref_copy; ref_img.copyTo(ref_copy); 
     Mat nex_copy; nex_img.copyTo(nex_copy);
@@ -102,9 +100,37 @@ void basicSfM :: estimate_keypoint_correspondences(vector<Mat> images)
     }
 }
 
-
-void basicSfM :: algorithm_sparse3d(Mat image_ref, Mat image_nex, Mat K)
+void basicSfM::ReadMatFromTxt(string filename)
 {
+    vector<vector<float>> data;
+    ifstream infile(filename);
+    string line;
+    string str;
+
+    //  Read the file
+    while (getline(infile, line))
+    {
+        istringstream ss(line);
+        vector<float> record;
+        while (getline(ss, str, ',')){
+            record.push_back(std::stod(str));
+        }
+        data.push_back(record);
+    }
+    
+    for (size_t i = 0; i < data.size(); i++)
+    {
+        vector<float> record;
+        record = data[i];
+        ref_keypoints.push_back(Point2f(record[0], record[1]));
+    }
+}
+
+void basicSfM :: algorithm_sparse3d(Mat image_ref, Mat image_nex, Mat K){
+
+    ReadMatFromTxt("../../../src_cpp/src/SIFT_KeyPoints/keypoint_ref.txt");
+
+    /*
     //display the images
     imshow("reference image", image_ref);
     imshow("next image", image_nex);
@@ -124,4 +150,5 @@ void basicSfM :: algorithm_sparse3d(Mat image_ref, Mat image_nex, Mat K)
     //reconstruct the matched point correspondences.
     K.copyTo(K_mat);
     reconstruct_sparse3d();
+    */
 }

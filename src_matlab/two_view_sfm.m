@@ -56,6 +56,9 @@ showMatchedFeatures(I_ref, I_nex, matchedpoint_ref, matchedpoint_nex, ...
 % plot3(reconstructed_3d_points(:, 1), reconstructed_3d_points(:, 2), ...
 %    reconstructed_3d_points(:, 3), 'k.');
 
+% to save matched point, you can use.
+% writematrix(matrix_variable, 'filename.txt');
+
 
 
 

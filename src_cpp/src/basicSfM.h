@@ -36,6 +36,7 @@ class basicSfM
    void reconstruct_sparse3d();
    void estimate_keypoint_correspondences(vector<Mat>);
    vector<DMatch> match_keypoint_descriptors(Mat, Mat);
+   void ReadMatFromTxt(string filename);
 };
 
 #endif
