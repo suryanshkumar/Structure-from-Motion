@@ -1,5 +1,6 @@
 % Author: Suryansh Kumar, ETH
-% Refer page 258-259 Multiple View Geometry in Computer Vision Book.
+% Refer Hartley and Zisserman Multiple View Geometry Book
+% page 258-259, Result 9.18-9.19.
 
 function [R1, R2, t1, t2] = compute_possible_poses(E)
 

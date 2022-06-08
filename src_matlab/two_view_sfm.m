@@ -50,7 +50,7 @@ showMatchedFeatures(I_ref, I_nex, matchedpoint_ref, matchedpoint_nex, ...
 % reconstructed_3d_points and visualize the points in a 
 % good 3D visualizer. Recommended software: pangolin, open3d.
 
-%figure, hold on;
+% figure, hold on;
 % plot3(reconstructed_3d_points(:, 1), reconstructed_3d_points(:, 2), ...
 %    reconstructed_3d_points(:, 3), 'k.');
 

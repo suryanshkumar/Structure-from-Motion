@@ -1,4 +1,6 @@
-% Author: Suryansh Kumar, ETH
+% Author: Suryansh Kumar, ETH Zurich
+% Refer Hartley and Zisserman Multiple View Geometry Book
+% page 312, Linear Triangulation Method.
 
 % Input: 
 % x_ref: reference image 2d key-points.
@@ -6,6 +8,9 @@
 % scale: for homogeneous it is set to 1.
 % P_ref: reference image projection matrix.
 % P_nex: next image projection matrix.
+
+% Output:
+% X: traingulated points.
 
 function X = triangulate_points(x_ref, x_nex, scale, P_ref, P_nex)
 
@@ -26,6 +31,6 @@ for i = 1:number_of_points
     X(:, i) = V(:, 4);
 end
 
-X = X'; % making it into the form (number of point, 4)
+X = X'; % (number of point, 4) as per my coding convention.
 
 end

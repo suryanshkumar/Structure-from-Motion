@@ -3,7 +3,8 @@
 function [R_rel, t_rel, reconstructed_points] = reconstruct_3d_points(...
     x_ref, x_nex, K)
 
-% step 1: compute fundamental matrix.
+% step 1: compute fundamental matrix 
+% Used Peter Kovesi script for estimation fundamental matrix.
 F = fundmatrix([x_ref'; ones(1, length(x_ref))], ...
     [x_nex'; ones(1, length(x_nex))]);
 
@@ -11,6 +12,9 @@ F = fundmatrix([x_ref'; ones(1, length(x_ref))], ...
 E = K'*F*K;
 
 % step 3: compute possible poses for the next camera
+% Refer Hartley and Zisserman Multiple View Geometry Book
+% page 258-259, Result 9.18-9.19.
+
 [R1_nex, R2_nex, t1_nex, t2_nex] = compute_possible_poses(E);
 
 % store four possible camera for the next view;
@@ -65,19 +69,19 @@ end
 % get the x/w, y/w, z/w from x, y, z, w.
 function X = filter_and_recover(chiral_mat, X_mat)
 X = []; count = 0;
+FILTER_THR = 20.0; % threshold z value for having good reconstruction.
 
 for i = 1:length(chiral_mat)
     val = chiral_mat(i); 
     if (val == 2.0)
         x = X_mat(i, 1); y = X_mat(i, 2); z = X_mat(i, 3); w = X_mat(i, 4);
         x = x/w; y = y/w; z = z/w;
-        if (z > 0 && z <20.0)
+        if (z > 0 && z <FILTER_THR)
             count = count + 1;
             x_store = [x, y, z];
             X = [X; x_store];
         end
     end
-
 end
 
 end
