@@ -10,18 +10,11 @@
 #include <cstring>
 #include <fstream>
 #include "essential.h"
-#define THR_D 100
+#define THR_D 20
 
 using namespace cv;
 using namespace std;
 
-void essential :: getIntrinsic(int scale)
-{
-   double fx = 3838.27/scale; double fy = 3837.22/scale; 
-   double cx = 2808.00/scale; double cy = 1872.00/scale;
-   K = (Mat_<double>(3, 3)<<fx, 0, cx, 0, fy, cy, 0, 0, 1);
-   //cout<<K<<endl;
-} 
 
 void essential :: computeEssentialMat(vector<Point2f> iF1, vector<Point2f> iF2)
 {
@@ -30,7 +23,7 @@ void essential :: computeEssentialMat(vector<Point2f> iF1, vector<Point2f> iF2)
     
     /**Computing the Essential matrix**/
     E = K.t()*F*K;
-    
+
     //cout<<"Essential Matrix"<<E<<endl;
 }
 

@@ -23,12 +23,14 @@ class basicSfM
    Mat R_rel, t_rel, P_rel;
    vector<cv::Point3d> xR;
 
-   void algorithm_sparse3d(Mat, Mat, int);
+   void algorithm_sparse3d(Mat, Mat, Mat);
 
   private:
    vector<Point2f> ref_keypoints;
    vector<Point2f> nex_keypoints;
    vector< DMatch > matches;
+   Mat K_mat;
+   Mat img_matches;
    int im_scale_factor;
    
    void reconstruct_sparse3d();
