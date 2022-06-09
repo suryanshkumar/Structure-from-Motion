@@ -13,6 +13,6 @@ using namespace cv;
 class triangulate{
   public:
     Mat triangulate_points(vector<Point2f>, vector<Point2f>, float, Mat, Mat);
-  };
+};
 
 #endif
