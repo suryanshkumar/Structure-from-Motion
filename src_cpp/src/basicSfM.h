@@ -1,5 +1,4 @@
-/* Author: Suryansh Kumar 
-*/
+/* Author: Suryansh Kumar */
 
 #ifndef BASICSFM_H
 #define BASICSFM_H

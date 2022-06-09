@@ -1,4 +1,3 @@
-
 /* Author : Suryansh Kumar, ETH Zurich */
 
 #include <iostream>
@@ -19,9 +18,8 @@ using namespace cv;
 
 
 void basicSfM :: reconstruct_sparse3d(){
-
   essential Est;
-  
+
   //Step 1: Compute Essential Matrix.
   K_mat.copyTo(Est.K);
   Est.computeEssentialMat(ref_keypoints, nex_keypoints);
