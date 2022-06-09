@@ -1,7 +1,4 @@
-/* *
- * Author : Suryansh Kumar, ETH Zurich 
- * 
- * */
+/* Author : Suryansh Kumar, ETH Zurich */
 
 #include <iostream>
 #include <fstream>
@@ -15,7 +12,7 @@ using namespace std;
 
 
 int main(int argc, char *argv[]){
-  
+
   // step 1: read the images and initialize the camera intrinsic matrix.
   Mat image_1 = imread("../../../images/0022.JPG");
   Mat image_2 = imread("../../../images/0023.JPG");
@@ -33,7 +30,7 @@ int main(int argc, char *argv[]){
   cx = cx/im_div_scale; cy = cy/im_div_scale;
   Mat K = (Mat_<double>(3, 3)<<fx, 0, cx, 0, fy, cy, 0, 0, 1);
 
-  // execute the basic two-view structure from motion algorithm.
+  //execute the basic two-view structure from motion algorithm.
   basicSfM sfm;
   sfm.algorithm_sparse3d(image_ref, image_nex, K);
   
