@@ -24,8 +24,11 @@ int main(int argc, char *argv[]){
   int im_div_scale = 1.0;
   Mat image_ref; Mat image_nex;
   
-  resize(image_1, image_ref, Size(image_1.size().width/im_div_scale, image_1.size().height/im_div_scale));
-  resize(image_2, image_nex, Size(image_2.size().width/im_div_scale, image_2.size().height/im_div_scale));
+  resize(image_1, image_ref, Size(image_1.size().width/im_div_scale, 
+    image_1.size().height/im_div_scale));
+  resize(image_2, image_nex, Size(image_2.size().width/im_div_scale, 
+    image_2.size().height/im_div_scale));
+  
   fx = fx/im_div_scale; fy = fy/im_div_scale;
   cx = cx/im_div_scale; cy = cy/im_div_scale;
   Mat K = (Mat_<double>(3, 3)<<fx, 0, cx, 0, fy, cy, 0, 0, 1);
