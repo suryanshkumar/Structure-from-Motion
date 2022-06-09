@@ -6,7 +6,6 @@ ADD_LIBRARY( Sparse3D
 
         #L1 Tracker
         basicSfM
-        matches
         essential
         triangulate
         #BlobLib

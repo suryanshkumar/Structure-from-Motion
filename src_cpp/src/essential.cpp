@@ -18,7 +18,7 @@ using namespace std;
 
 void essential :: computeEssentialMat(vector<Point2f> iF1, vector<Point2f> iF2)
 {
-    F = findFundamentalMat(iF1, iF2, FM_8POINT, 1, 0.99);
+    F = findFundamentalMat(iF1, iF2, FM_RANSAC, 1, 0.99);
     //cout<<" Fundamental Matrix " << F <<endl;
     
     /**Computing the Essential matrix**/

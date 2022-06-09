@@ -13,7 +13,6 @@
 #include <opencv2/features2d.hpp>
 #include "opencv2/core.hpp"
 #include "basicSfM.h"
-#include "matches.h"
 #include "essential.h"
 #include "triangulate.h"
 
@@ -100,8 +99,9 @@ void basicSfM :: estimate_keypoint_correspondences(vector<Mat> images){
     }
 }
 
-void basicSfM::ReadMatFromTxt(string filename)
+vector<Point2f> basicSfM::read_keypoints_from_txt_file(string filename)
 {
+    vector<Point2f> keypoints;
     vector<vector<float>> data;
     ifstream infile(filename);
     string line;
@@ -122,26 +122,57 @@ void basicSfM::ReadMatFromTxt(string filename)
     {
         vector<float> record;
         record = data[i];
-        ref_keypoints.push_back(Point2f(record[0], record[1]));
+        keypoints.push_back(Point2f(record[0], record[1]));
     }
+    return keypoints;
 }
 
-void basicSfM :: algorithm_sparse3d(Mat image_ref, Mat image_nex, Mat K){
 
-    ReadMatFromTxt("../../../src_cpp/src/SIFT_KeyPoints/keypoint_ref.txt");
+Mat basicSfM :: drawCorrespondances()
+{
+    Mat src_copy;
+    image_ref.copyTo(src_copy);
 
-    /*
-    //display the images
+    std::vector<Point2f> :: const_iterator itc = ref_keypoints.begin();
+    std::vector<Point2f> :: const_iterator itf = nex_keypoints.begin();
+
+    int count = 0;
+
+    while(itc!=ref_keypoints.end())
+    {
+        circle(src_copy, *itc, 1, Scalar(0, 0, 255), 2, 8, 0);
+        circle(src_copy, *itf, 1, Scalar(0, 255, 0), 2, 8, 0);
+        cv::line(src_copy, *itc, *itf, Scalar(0, 255, 255) );
+        itc++;
+        itf++;
+        count++;
+    }
+    return src_copy;
+}
+
+void basicSfM :: algorithm_sparse3d(Mat image_1, Mat image_2, Mat K){
+    //save and display the images
+    image_1.copyTo(image_ref);
+    image_2.copyTo(image_nex);
+
+    vector<Mat> images;
+    images.push_back(image_ref); images.push_back(image_nex);
+
     imshow("reference image", image_ref);
     imshow("next image", image_nex);
     waitKey(0);
 
-    //store the images
-    vector<Mat> images;
-    images.push_back(image_ref); images.push_back(image_nex);
-
     //estimate the keypoint and match its correspondences in the next image
-    estimate_keypoint_correspondences(images);
+
+    //uncomment the next line to automate the keypoiny detection and matching
+    /*estimate_keypoint_correspondences(images);*/
+
+    //use the saved files to read the SIFT keypoint correspondences.
+    //opencv SIFT features requires non-free modules to be installed.
+    //Therefore, I saved the SIFT features from MATLAB 2022 for this example code.
+    ref_keypoints = read_keypoints_from_txt_file("../../../src_cpp/src/SIFT_KeyPoints/keypoint_ref.txt");
+    nex_keypoints = read_keypoints_from_txt_file("../../../src_cpp/src/SIFT_KeyPoints/keypoint_nex.txt");
+    img_matches = drawCorrespondances();
 
     //display the image keypoint correspondences
     imshow("Matches", img_matches);
@@ -150,5 +181,4 @@ void basicSfM :: algorithm_sparse3d(Mat image_ref, Mat image_nex, Mat K){
     //reconstruct the matched point correspondences.
     K.copyTo(K_mat);
     reconstruct_sparse3d();
-    */
 }

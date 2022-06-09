@@ -38,7 +38,7 @@ int main(int argc, char *argv[]){
   sfm.algorithm_sparse3d(image_ref, image_nex, K);
   
   //read the relative pose
-  /*cout<<"Relative Rotation"<<sfm.R_rel<<endl;
+  cout<<"Relative Rotation"<<sfm.R_rel<<endl;
   cout<<"Relative Translation"<<sfm.t_rel<<endl;
   
   //read the 3D reconstruction
@@ -48,6 +48,6 @@ int main(int argc, char *argv[]){
   while(it != reconstruction.end()){
     cout<<it->x<<" "<<it->y<<" "<<it->z<<endl;
     it++;
-  }*/
+  }
   return 0;
 }
