@@ -23,7 +23,6 @@ Mat triangulate::triangulate_points(vector<Point2f> f1, vector<Point2f> f2,
     Mat t4 = (P2.row(2)).mul(y2) - P2.row(1); t4.copyTo(J.row(3));
 
     //Finding the solution with minimum error
-
     SVD svd(J);
     Mat V = svd.vt.t();
     Mat t = V.col(3);

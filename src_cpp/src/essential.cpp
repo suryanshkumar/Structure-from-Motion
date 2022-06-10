@@ -74,7 +74,6 @@ Mat essential :: sign(Mat A){
 }
 
 void essential :: get_valid_3d(Mat P, Mat chiral, Mat X, Mat R, Mat t){
-  
   P.copyTo(P2c); R.copyTo(R2c); t.copyTo(t2c);
 
   for(int i = 0; i<chiral.cols; i++){
@@ -153,7 +152,6 @@ void essential :: check_chirality(Mat Xn1, Mat Xn2, Mat Xn3, Mat Xn4){
       get_valid_3d(P4, chiral4, Xn4.t(), R2, t2);
       break;
   }
-  
 }
 
 
